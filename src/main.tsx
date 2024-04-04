@@ -5,12 +5,14 @@ import './index.css'
 import { Provider } from 'react-redux'
 import { makeStore } from './redux/index.ts'
 import { BrowserRouter } from 'react-router-dom'
+import { Toaster } from 'sonner'
 const store = makeStore()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
+        <Toaster />
         <App />
       </Provider>
     </BrowserRouter>

@@ -1,3 +1,5 @@
+import RegisterForm from '@/components/auth/registration-form'
+
 export default function RegistrationPage() {
-  return <div></div>
+  return <RegisterForm />
 }

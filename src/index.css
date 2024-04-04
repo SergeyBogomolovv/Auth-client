@@ -71,6 +71,8 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    background: -webkit-linear-gradient(62deg, #00fbff, #7866ff);
+    background: linear-gradient(62deg, #00fbff, #7866ff);
+    @apply text-foreground;
   }
 }
