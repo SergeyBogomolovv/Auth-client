@@ -15,11 +15,11 @@ import { Button } from '../ui/button'
 import FormError from './form-error'
 import FormSucces from './form-succes'
 import FormWrapper from './form-wrapper'
-import $api from '@/lib/axios'
-import { isAxiosError } from 'axios'
 import { RegisterSchema } from '@/schemas'
+import { useAuth } from '@/hooks/use-auth'
 
 const RegisterForm = () => {
+  const { registration } = useAuth()
   const [error, setError] = useState<string | undefined>()
   const [succes, setSucces] = useState<string | undefined>()
   const [isPending, startTransition] = useTransition()
@@ -36,17 +36,14 @@ const RegisterForm = () => {
     setError('')
     setSucces('')
     startTransition(() => {
-      try {
-        $api.post('/auth/registration', { ...values }).then((response) => {
-          if (response.data.message) {
-            setSucces(response.data.message)
-          }
-        })
-      } catch (error) {
-        if (isAxiosError(error)) {
-          setError(error.message)
+      registration(values).then((data) => {
+        if (data.message) {
+          setSucces(data.message)
         }
-      }
+        if (data.error) {
+          setError(data.error)
+        }
+      })
     })
   }
 

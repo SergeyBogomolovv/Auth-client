@@ -2,7 +2,7 @@ export interface User {
   id: string
   name: string
   email: string
-  role: [UserRole]
+  roles: [UserRole]
   image: string
   createdAt: Date
   emailVerified: Date | null

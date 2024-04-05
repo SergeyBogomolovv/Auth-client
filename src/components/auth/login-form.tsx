@@ -27,7 +27,7 @@ const LoginForm = () => {
           toast.error(data.error)
         }
         if (data.succes) {
-          toast.error(data.succes)
+          toast.success(data.succes)
         }
       })
     })

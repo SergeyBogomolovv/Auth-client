@@ -10,7 +10,7 @@ export const RegisterSchema = z
     if (passwordRepeat !== password) {
       ctx.addIssue({
         code: 'custom',
-        message: 'The passwords did not match',
+        message: 'The passwords doesnot match',
       })
     }
   })

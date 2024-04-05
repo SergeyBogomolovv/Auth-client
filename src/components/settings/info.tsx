@@ -5,7 +5,7 @@ import { useAuth } from '@/hooks/use-auth'
 export default function UserInfo() {
   const { user, logout } = useAuth()
   return (
-    <Card className='shadow-md'>
+    <Card className='shadow-md w-full'>
       <CardHeader>
         <p className='text-2xl font-semibold text-center tracking-widest'>
           User info
@@ -31,10 +31,15 @@ export default function UserInfo() {
           </p>
         </div>
         <div className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-md gap-2'>
-          <p className='text-sm font-medium'>Role</p>
-          <p className='truncate text-xs max-w-[180px] font-mono p-2 bg-secondary rounded-md'>
-            {user?.role}
-          </p>
+          <p className='text-sm font-medium'>Roles</p>
+          {user?.roles.map((role) => (
+            <p
+              key={role}
+              className='truncate text-xs max-w-[180px] font-mono p-2 bg-secondary rounded-md'
+            >
+              {role}
+            </p>
+          ))}
         </div>
         <Button onClick={() => logout()} variant={'destructive'}>
           Logout
