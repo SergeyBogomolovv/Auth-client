@@ -3,9 +3,11 @@ import { Outlet } from 'react-router'
 
 export default function MainLayout() {
   return (
-    <div>
+    <>
       <Navbar />
-      <Outlet />
-    </div>
+      <div className='min-h-[100svh]'>
+        <Outlet />
+      </div>
+    </>
   )
 }

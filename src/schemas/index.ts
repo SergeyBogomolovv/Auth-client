@@ -6,13 +6,9 @@ export const RegisterSchema = z
     password: z.string().min(6),
     passwordRepeat: z.string().min(6),
   })
-  .superRefine(({ passwordRepeat, password }, ctx) => {
-    if (passwordRepeat !== password) {
-      ctx.addIssue({
-        code: 'custom',
-        message: 'The passwords doesnot match',
-      })
-    }
+  .refine((data) => data.password === data.passwordRepeat, {
+    message: "Passwords doesn't match",
+    path: ['passwordRepeat'],
   })
 
 export const LoginSchema = z.object({
