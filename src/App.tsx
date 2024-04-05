@@ -10,6 +10,7 @@ import Private from './hoc/Private'
 import { useEffect } from 'react'
 import { useAuth } from './hooks/use-auth'
 import { PropagateLoader } from 'react-spinners'
+import GoogleRoute from './assets/google-route'
 function App() {
   const { checkAuth, isLoading, user } = useAuth()
 
@@ -26,6 +27,7 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<MainLayout />}>
+        <Route path='api/google/callback' element={<GoogleRoute />} />
         <Route index element={<MainPage />} />
         <Route path='auth' element={<AuthLayout />}>
           <Route path='login' element={<LoginPage />} />
