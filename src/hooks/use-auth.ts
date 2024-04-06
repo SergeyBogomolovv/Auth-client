@@ -36,7 +36,6 @@ export const useAuth = () => {
   const checkAuth = async () => {
     try {
       setLoading(true)
-
       const { data } = await axios.get<LoginResponse>(
         `${SERVER_URL}/auth/refresh`,
         { withCredentials: true }
@@ -45,7 +44,8 @@ export const useAuth = () => {
       localStorage.setItem('accesToken', data.accesToken)
       dispatch(setCurrentUser(data.user))
     } catch (error) {
-      console.log(error)
+      dispatch(setCurrentUser(null))
+      localStorage.removeItem('accesToken')
     }
   }
   const google = async (token: string) => {
