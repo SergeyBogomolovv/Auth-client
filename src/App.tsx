@@ -11,6 +11,8 @@ import { useEffect } from 'react'
 import { useAuth } from './hooks/use-auth'
 import { PropagateLoader } from 'react-spinners'
 import GoogleRoute from './assets/google-route'
+import BlogPage from './pages/blog'
+import CreatePostPage from './pages/create-post'
 function App() {
   const { checkAuth, isLoading, user } = useAuth()
 
@@ -43,6 +45,15 @@ function App() {
             }
           />
         </Route>
+        <Route path='blog' element={<BlogPage />} />
+        <Route
+          path='create-post'
+          element={
+            <Private>
+              <CreatePostPage />
+            </Private>
+          }
+        />
       </Route>
     </Routes>
   )

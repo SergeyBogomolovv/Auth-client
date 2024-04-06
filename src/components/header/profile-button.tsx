@@ -10,10 +10,15 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Link } from 'react-router-dom'
+import LogoutWrapper from '../auth/logout-wrapper'
+import { RiUserAddFill } from 'react-icons/ri'
+import { RiUserSharedFill } from 'react-icons/ri'
+import { MdManageAccounts } from 'react-icons/md'
+import { CiLogout } from 'react-icons/ci'
 
 export default function ProfileButton() {
   const { user } = useAuth()
-  const logo = user?.image.startsWith('/avatars')
+  const logo = user?.image.startsWith('avatars')
     ? `https://nest-auth.storage.yandexcloud.net/${user.image}`
     : user?.image
   return (
@@ -29,8 +34,17 @@ export default function ProfileButton() {
             <DropdownMenuLabel>Profile</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild className='hover:cursor-pointer'>
-              <Link to='/settings'>Settings</Link>
+              <Link to='/settings'>
+                <MdManageAccounts className='w-4 h-4 mr-2' />
+                Settings
+              </Link>
             </DropdownMenuItem>
+            <LogoutWrapper>
+              <DropdownMenuItem className='hover:cursor-pointer'>
+                <CiLogout className='w-4 h-4 mr-2' />
+                Logout
+              </DropdownMenuItem>
+            </LogoutWrapper>
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
@@ -43,10 +57,16 @@ export default function ProfileButton() {
               <DropdownMenuLabel>Authorize</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild className='hover:cursor-pointer'>
-                <Link to='/auth/login'>Login</Link>
+                <Link to='/auth/login'>
+                  <RiUserSharedFill className='w-4 h-4 mr-2' />
+                  Login
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild className='hover:cursor-pointer'>
-                <Link to='/auth/registration'>Registration</Link>
+                <Link to='/auth/registration'>
+                  <RiUserAddFill className='w-4 h-4 mr-2' />
+                  Registration
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
