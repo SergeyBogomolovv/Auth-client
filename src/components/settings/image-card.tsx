@@ -12,7 +12,7 @@ export default function ImageCard({ user }: { user: User }) {
         <img
           src={image}
           alt='User image'
-          className='aspect-square w-full z-10 rounded-lg'
+          className='aspect-square w-full z-10 rounded-lg shadow-md'
         />
         <button className='absolute top-1 right-1 opacity-0 group-hover:opacity-100 px-3 transition-opacity py-2 outline-none'>
           <RiImageEditLine className='text-white transition-opacity w-8 h-8' />
