@@ -10,6 +10,9 @@ import Private from './hoc/Private'
 import { useEffect } from 'react'
 import { useAuth } from './hooks/use-auth'
 import { PropagateLoader } from 'react-spinners'
+import GoogleRoute from './assets/google-route'
+import BlogPage from './pages/blog'
+import CreatePostPage from './pages/create-post'
 function App() {
   const { checkAuth, isLoading, user } = useAuth()
 
@@ -26,6 +29,7 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<MainLayout />}>
+        <Route path='api/google/callback' element={<GoogleRoute />} />
         <Route index element={<MainPage />} />
         <Route path='auth' element={<AuthLayout />}>
           <Route path='login' element={<LoginPage />} />
@@ -41,6 +45,15 @@ function App() {
             }
           />
         </Route>
+        <Route path='blog' element={<BlogPage />} />
+        <Route
+          path='create-post'
+          element={
+            <Private>
+              <CreatePostPage />
+            </Private>
+          }
+        />
       </Route>
     </Routes>
   )

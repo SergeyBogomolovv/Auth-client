@@ -41,6 +41,7 @@ export default function UserInfo() {
             </p>
           ))}
         </div>
+        <img src={user?.image} alt='' className='rounded-lg' />
         <Button onClick={() => logout()} variant={'destructive'}>
           Logout
         </Button>

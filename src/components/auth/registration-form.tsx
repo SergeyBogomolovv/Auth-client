@@ -19,7 +19,7 @@ import { RegisterSchema } from '@/schemas'
 import { useAuth } from '@/hooks/use-auth'
 
 const RegisterForm = () => {
-  const { registration } = useAuth()
+  const { registration, isLoading } = useAuth()
   const [error, setError] = useState<string | undefined>()
   const [succes, setSucces] = useState<string | undefined>()
   const [isPending, startTransition] = useTransition()
@@ -129,7 +129,7 @@ const RegisterForm = () => {
             <FormSucces message={succes} />
           </div>
           <Button
-            disabled={isPending}
+            disabled={isLoading}
             type='submit'
             className='w-full'
             size='lg'

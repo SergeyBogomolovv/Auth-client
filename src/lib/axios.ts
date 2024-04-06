@@ -32,7 +32,7 @@ $api.interceptors.response.use(
         localStorage.setItem('accesToken', response.data.accesToken)
         return $api.request(originalRequest)
       } catch (error) {
-        console.log(error)
+        localStorage.removeItem('accesToken')
       }
     }
     throw error
