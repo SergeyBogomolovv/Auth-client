@@ -79,7 +79,7 @@ export const useAuth = () => {
 
   return {
     login,
-    user: currentUser,
+    user: currentUser!,
     logout,
     checkAuth,
     isLoading,

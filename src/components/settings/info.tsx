@@ -1,9 +1,16 @@
 import { Button } from '../ui/button'
-import { Card, CardContent, CardHeader } from '../ui/card'
+import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
 import { useAuth } from '@/hooks/use-auth'
+import InfoCard from './info-card'
+import { format, parseISO } from 'date-fns'
+import LogoutWrapper from '../auth/logout-wrapper'
+import NameCard from './name-card'
+import ImageCard from './image-card'
 
 export default function UserInfo() {
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
+  const date = format(parseISO(user.createdAt), 'eeee do MMM, yyyy')
+
   return (
     <Card className='shadow-md w-full'>
       <CardHeader>
@@ -11,41 +18,25 @@ export default function UserInfo() {
           User info
         </p>
       </CardHeader>
-      <CardContent className='space-y-4'>
-        <div className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-md gap-2'>
-          <p className='text-sm font-medium'>ID</p>
-          <p className='truncate text-xs max-w-[180px] font-mono p-2 bg-secondary rounded-md'>
-            {user?.id}
-          </p>
+      <CardContent className='grid grid-cols-2 gap-x-8'>
+        <div className='space-y-4'>
+          <ImageCard user={user} />
+          <NameCard user={user} />
         </div>
-        <div className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-md gap-2'>
-          <p className='text-sm font-medium'>Name</p>
-          <p className='truncate text-xs max-w-[180px] font-mono p-2 bg-secondary rounded-md'>
-            {user?.name}
-          </p>
+        <div className='flex flex-col justify-between'>
+          <InfoCard label='ID' value={user?.id} />
+          <InfoCard label='Email' value={user?.email} />
+          <InfoCard label='Created' value={date} />
+          <InfoCard label='Role' value={user?.roles[0]} />
         </div>
-        <div className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-md gap-2'>
-          <p className='text-sm font-medium'>Email</p>
-          <p className='truncate text-xs max-w-[180px] font-mono p-2 bg-secondary rounded-md'>
-            {user?.email}
-          </p>
-        </div>
-        <div className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-md gap-2'>
-          <p className='text-sm font-medium'>Roles</p>
-          {user?.roles.map((role) => (
-            <p
-              key={role}
-              className='truncate text-xs max-w-[180px] font-mono p-2 bg-secondary rounded-md'
-            >
-              {role}
-            </p>
-          ))}
-        </div>
-        <img src={user?.image} alt='' className='rounded-lg' />
-        <Button onClick={() => logout()} variant={'destructive'}>
-          Logout
-        </Button>
       </CardContent>
+      <CardFooter>
+        <LogoutWrapper className='w-full'>
+          <Button className='w-full' variant={'destructive'}>
+            Logout
+          </Button>
+        </LogoutWrapper>
+      </CardFooter>
     </Card>
   )
 }

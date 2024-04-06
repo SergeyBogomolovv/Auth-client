@@ -4,7 +4,7 @@ export interface User {
   email: string
   roles: [UserRole]
   image: string
-  createdAt: Date
+  createdAt: string
   emailVerified: Date | null
 }
 
