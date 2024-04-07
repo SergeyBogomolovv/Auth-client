@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from './redux'
 import $api from 'lib/axios'
 import { User } from '@/interfaces/user'
 import { setCurrentUser } from '@/redux/slices/profile'
+import axios from 'axios'
 
 export const useProfile = () => {
   const [isLoading, setLoading] = useState(false)
@@ -21,16 +22,22 @@ export const useProfile = () => {
   }
   const updateAvatar = async (image: File) => {
     if (!currentUser) return { error: 'Please login' }
-    setLoading(true)
-    const data = new FormData()
-    data.append('image', image)
-    const { data: user } = await $api.put<User>(
-      `users/update-image/${currentUser.id}`,
-      data
-    )
-    setLoading(false)
-    dispatch(setCurrentUser(user))
-    return { succes: 'Avatar was updated' }
+    try {
+      setLoading(true)
+      const data = new FormData()
+      data.append('image', image)
+      const { data: user } = await $api.put<User>(
+        `users/update-image/${currentUser.id}`,
+        data
+      )
+      setLoading(false)
+      dispatch(setCurrentUser(user))
+      return { succes: 'Avatar was updated' }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.message)
+      }
+    }
   }
   return { updateName, loading: isLoading, updateAvatar }
 }
