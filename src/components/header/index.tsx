@@ -1,5 +1,5 @@
-import Links from './links'
-import ProfileButton from './profile-button'
+import Links from 'components/header/links'
+import ProfileButton from 'components/header/profile-button'
 
 export default function Header() {
   return (

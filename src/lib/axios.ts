@@ -1,4 +1,4 @@
-import { RefreshResponse } from '@/interfaces/refresh-response'
+import { RefreshResponse } from 'interfaces/refresh-response'
 import axios from 'axios'
 export const SERVER_URL = 'http://localhost:5174'
 

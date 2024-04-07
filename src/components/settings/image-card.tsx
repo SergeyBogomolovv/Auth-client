@@ -1,4 +1,4 @@
-import { User } from '@/interfaces/user'
+import { User } from 'interfaces/user'
 import { RiImageEditLine } from 'react-icons/ri'
 
 export default function ImageCard({ user }: { user: User }) {

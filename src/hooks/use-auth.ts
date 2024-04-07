@@ -5,7 +5,7 @@ import { setCurrentUser } from 'slices/profile'
 import axios from 'axios'
 import { useState } from 'react'
 import * as z from 'zod'
-import { LoginSchema, RegisterSchema } from '../schemas'
+import { LoginSchema, RegisterSchema } from '@/schemas'
 
 export const useAuth = () => {
   const [isLoading, setLoading] = useState(false)

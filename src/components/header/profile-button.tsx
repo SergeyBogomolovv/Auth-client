@@ -1,5 +1,5 @@
-import { useAuth } from '@/hooks/use-auth'
-import { Avatar, AvatarImage } from '../ui/avatar'
+import { useAuth } from 'hooks/use-auth'
+import { Avatar, AvatarImage } from 'components/ui/avatar'
 import { FaUserCircle } from 'react-icons/fa'
 import {
   DropdownMenu,
@@ -8,9 +8,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from 'components/ui/dropdown-menu'
 import { Link } from 'react-router-dom'
-import LogoutWrapper from '../auth/logout-wrapper'
+import LogoutWrapper from 'components/auth/logout-wrapper'
 import { RiUserAddFill } from 'react-icons/ri'
 import { RiUserSharedFill } from 'react-icons/ri'
 import { MdManageAccounts } from 'react-icons/md'

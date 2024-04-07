@@ -1,4 +1,4 @@
-import { User } from '@/interfaces/user'
+import { User } from 'interfaces/user'
 import { useState } from 'react'
 import { FaEdit } from 'react-icons/fa'
 

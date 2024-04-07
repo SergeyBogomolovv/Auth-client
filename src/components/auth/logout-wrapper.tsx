@@ -1,5 +1,5 @@
-import { useAuth } from '@/hooks/use-auth'
-import { cn } from '@/lib/utils'
+import { useAuth } from 'hooks/use-auth'
+import { cn } from 'lib/utils'
 
 export default function LogoutWrapper({
   children,

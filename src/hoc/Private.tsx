@@ -1,4 +1,4 @@
-import { useAuth } from '@/hooks/use-auth'
+import { useAuth } from 'hooks/use-auth'
 import { Navigate, useLocation } from 'react-router'
 
 interface Props {

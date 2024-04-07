@@ -1,9 +1,9 @@
-import { Button } from '../ui/button'
+import { Button } from 'components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
 import { useAuth } from '@/hooks/use-auth'
 import InfoCard from './info-card'
 import { format, parseISO } from 'date-fns'
-import LogoutWrapper from '../auth/logout-wrapper'
+import LogoutWrapper from 'components/auth/logout-wrapper'
 import NameCard from './name-card'
 import ImageCard from './image-card'
 

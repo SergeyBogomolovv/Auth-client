@@ -9,12 +9,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
-import FormError from './form-error'
-import FormSucces from './form-succes'
-import FormWrapper from './form-wrapper'
+} from 'components/ui/form'
+import { Input } from 'components/ui/input'
+import { Button } from 'components/ui/button'
+import FormError from 'components/auth/form-error'
+import FormSucces from 'components/auth/form-succes'
+import FormWrapper from 'components/auth/form-wrapper'
 import { RegisterSchema } from '@/schemas'
 import { useAuth } from '@/hooks/use-auth'
 
