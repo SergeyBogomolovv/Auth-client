@@ -27,7 +27,7 @@ export default function ProfileButton() {
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar className='w-8 h-8'>
-              <AvatarImage src={logo} />
+              <AvatarImage className='aspect-square object-cover' src={logo} />
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
