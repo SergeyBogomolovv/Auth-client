@@ -11,14 +11,20 @@ export const useProfile = () => {
   const dispatch = useAppDispatch()
   const updateName = async (name: string) => {
     if (!currentUser) return { error: 'Please login' }
-    setLoading(true)
-    const { data: user } = await $api.put<User>(
-      `users/rename/${currentUser.id}`,
-      { name }
-    )
-    setLoading(false)
-    dispatch(setCurrentUser(user))
-    return { succes: `Name updated to ${user.name}` }
+    try {
+      setLoading(true)
+      const { data: user } = await $api.put<User>(
+        `users/rename/${currentUser.id}`,
+        { name }
+      )
+      setLoading(false)
+      dispatch(setCurrentUser(user))
+      return { succes: `Name was updated to ${user.name}` }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return { error: error.response?.data.message }
+      }
+    }
   }
   const updateAvatar = async (image: File) => {
     if (!currentUser) return { error: 'Please login' }
@@ -35,7 +41,7 @@ export const useProfile = () => {
       return { succes: 'Avatar was updated' }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log(error.message)
+        return { error: error.response?.data.message }
       }
     }
   }

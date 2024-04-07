@@ -13,14 +13,20 @@ export const useAuth = () => {
   const dispatch = useAppDispatch()
   const login = async ({ email, password }: z.infer<typeof LoginSchema>) => {
     try {
+      setLoading(true)
       const { data } = await $api.post<LoginResponse>(`/auth/login`, {
         email,
         password,
       })
+      setLoading(false)
       dispatch(setCurrentUser(data.user))
       localStorage.setItem('accesToken', data.accesToken)
       return { succes: `Logined as ${data.user.email}` }
     } catch (error) {
+      setLoading(false)
+      if (axios.isAxiosError(error)) {
+        return { error: error.response?.data.message }
+      }
       return { error: 'Failed to login' }
     }
   }
@@ -30,6 +36,9 @@ export const useAuth = () => {
       localStorage.removeItem('accesToken')
       dispatch(setCurrentUser(null))
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return { error: error.response?.data.message }
+      }
       return { error: 'Failed to logout' }
     }
   }
@@ -44,17 +53,27 @@ export const useAuth = () => {
       localStorage.setItem('accesToken', data.accesToken)
       dispatch(setCurrentUser(data.user))
     } catch (error) {
+      setLoading(false)
       dispatch(setCurrentUser(null))
       localStorage.removeItem('accesToken')
+      if (axios.isAxiosError(error)) {
+        return { error: error.response?.data.message }
+      }
     }
   }
   const google = async (token: string) => {
-    const { data } = await axios.get<LoginResponse>(
-      `${import.meta.env.APP_SERVER_URL}/auth/google/get-user?token=${token}`,
-      { withCredentials: true }
-    )
-    localStorage.setItem('accesToken', data.accesToken)
-    dispatch(setCurrentUser(data.user))
+    try {
+      const { data } = await axios.get<LoginResponse>(
+        `${import.meta.env.APP_SERVER_URL}/auth/google/get-user?token=${token}`,
+        { withCredentials: true }
+      )
+      localStorage.setItem('accesToken', data.accesToken)
+      dispatch(setCurrentUser(data.user))
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return { error: error.response?.data.message }
+      }
+    }
   }
   const registration = async ({
     name,
@@ -76,7 +95,10 @@ export const useAuth = () => {
       setLoading(false)
       return { message: data.message }
     } catch (error) {
-      return { error: 'User already exists' }
+      setLoading(false)
+      if (axios.isAxiosError(error)) {
+        return { error: error.response?.data.message }
+      }
     }
   }
 
