@@ -9,11 +9,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
-import FormWrapper from './form-wrapper'
-import { useAuth } from '@/hooks/use-auth'
+} from 'components/ui/form'
+import { Input } from 'components/ui/input'
+import { Button } from 'components/ui/button'
+import FormWrapper from 'components/auth/form-wrapper'
+import { useAuth } from 'hooks/use-auth'
 import { toast } from 'sonner'
 import { LoginSchema } from '@/schemas'
 

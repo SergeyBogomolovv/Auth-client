@@ -1,8 +1,8 @@
-import UserInfo from '@/components/settings/info'
+import UserInfo from 'components/settings/info'
 
 export default function Settings() {
   return (
-    <div className='w-[600px]'>
+    <div className='w-[700px]'>
       <UserInfo />
     </div>
   )

@@ -1,10 +1,9 @@
-import { RefreshResponse } from '@/interfaces/refresh-response'
+import { RefreshResponse } from 'interfaces/refresh-response'
 import axios from 'axios'
-export const SERVER_URL = 'http://localhost:5174'
 
 const $api = axios.create({
   withCredentials: true,
-  baseURL: SERVER_URL,
+  baseURL: import.meta.env.APP_SERVER_URL,
 })
 
 $api.interceptors.request.use((config) => {
@@ -26,7 +25,7 @@ $api.interceptors.response.use(
       originalRequest._isRetry = true
       try {
         const response = await axios.get<RefreshResponse>(
-          `${SERVER_URL}/auth/refresh`,
+          `${import.meta.env.APP_SERVER_URL}/auth/refresh`,
           { withCredentials: true }
         )
         localStorage.setItem('accesToken', response.data.accesToken)

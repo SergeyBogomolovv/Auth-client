@@ -1,9 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import profileSlice from './slices/profile'
+import profileSlice from 'slices/profile'
+import { userApi } from 'api/user-api'
 
 export const makeStore = () => {
   return configureStore({
-    reducer: { profile: profileSlice },
+    reducer: { profile: profileSlice, [userApi.reducerPath]: userApi.reducer },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(userApi.middleware),
   })
 }
 

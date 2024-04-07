@@ -1,4 +1,4 @@
-import Navbar from '@/components/header'
+import Navbar from 'components/header'
 import { Outlet } from 'react-router'
 
 export default function MainLayout() {

@@ -1,11 +1,11 @@
-import { useAppDispatch, useAppSelector } from './redux'
-import { LoginResponse } from '@/interfaces/login-response'
-import $api, { SERVER_URL } from '@/lib/axios'
-import { setCurrentUser } from '@/redux/slices/profile'
+import { useAppDispatch, useAppSelector } from 'hooks/redux'
+import { LoginResponse } from 'interfaces/login-response'
+import $api from 'lib/axios'
+import { setCurrentUser } from 'slices/profile'
 import axios from 'axios'
 import { useState } from 'react'
 import * as z from 'zod'
-import { LoginSchema, RegisterSchema } from '../schemas'
+import { LoginSchema, RegisterSchema } from '@/schemas'
 
 export const useAuth = () => {
   const [isLoading, setLoading] = useState(false)
@@ -37,7 +37,7 @@ export const useAuth = () => {
     try {
       setLoading(true)
       const { data } = await axios.get<LoginResponse>(
-        `${SERVER_URL}/auth/refresh`,
+        `${import.meta.env.APP_SERVER_URL}/auth/refresh`,
         { withCredentials: true }
       )
       setLoading(false)
@@ -50,7 +50,7 @@ export const useAuth = () => {
   }
   const google = async (token: string) => {
     const { data } = await axios.get<LoginResponse>(
-      `${SERVER_URL}/auth/google/get-user?token=${token}`,
+      `${import.meta.env.APP_SERVER_URL}/auth/google/get-user?token=${token}`,
       { withCredentials: true }
     )
     localStorage.setItem('accesToken', data.accesToken)
@@ -64,12 +64,15 @@ export const useAuth = () => {
   }: z.infer<typeof RegisterSchema>) => {
     try {
       setLoading(true)
-      const { data } = await axios.post(`${SERVER_URL}/auth/registration`, {
-        name,
-        email,
-        password,
-        passwordRepeat,
-      })
+      const { data } = await axios.post(
+        `${import.meta.env.APP_SERVER_URL}/auth/registration`,
+        {
+          name,
+          email,
+          password,
+          passwordRepeat,
+        }
+      )
       setLoading(false)
       return { message: data.message }
     } catch (error) {
@@ -79,7 +82,7 @@ export const useAuth = () => {
 
   return {
     login,
-    user: currentUser,
+    user: currentUser!,
     logout,
     checkAuth,
     isLoading,
