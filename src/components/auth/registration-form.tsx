@@ -37,10 +37,10 @@ const RegisterForm = () => {
     setSucces('')
     startTransition(() => {
       registration(values).then((data) => {
-        if (data.message) {
+        if (data?.message) {
           setSucces(data.message)
         }
-        if (data.error) {
+        if (data?.error) {
           setError(data.error)
         }
       })
@@ -49,6 +49,8 @@ const RegisterForm = () => {
 
   return (
     <FormWrapper
+      showBackButton
+      showSocial
       header='Registration'
       label='Create an account'
       backButtonLabel='Already have an account?'

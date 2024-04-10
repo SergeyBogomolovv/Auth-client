@@ -18,7 +18,7 @@ export default function UserCard({ user, label }: Props) {
     : user.image
   return (
     <HoverCard>
-      <HoverCardTrigger asChild>
+      <HoverCardTrigger>
         <Trigger image={imageUrl} label={label} name={user.name} />
       </HoverCardTrigger>
       <HoverCardContent className='w-full'>

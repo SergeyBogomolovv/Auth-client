@@ -42,6 +42,8 @@ const LoginForm = () => {
   })
   return (
     <FormWrapper
+      showBackButton
+      showSocial
       header='Login'
       label='Welcome back!'
       backButtonLabel='Dont have an account?'

@@ -9,7 +9,7 @@ interface Props {
 
 export default function Trigger({ image, label, name }: Props) {
   return (
-    <Badge variant={'outline'}>
+    <Badge variant={'outline'} className='cursor-pointer'>
       <Avatar className='w-9 h-9 mr-3'>
         <AvatarImage src={image} className='aspect-square object-cover' />
       </Avatar>
