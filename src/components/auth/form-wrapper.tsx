@@ -8,8 +8,10 @@ interface Props {
   header: string
   label: string
   children: React.ReactNode
-  backButtonHref: string
-  backButtonLabel: string
+  backButtonHref?: string
+  backButtonLabel?: string
+  showSocial?: boolean
+  showBackButton?: boolean
 }
 
 export default function FormWrapper({
@@ -18,6 +20,8 @@ export default function FormWrapper({
   children,
   backButtonHref,
   backButtonLabel,
+  showBackButton,
+  showSocial,
 }: Props) {
   return (
     <Card className='sm:w-[400px] w-full sm:m-0 mx-5 shadow-md'>
@@ -25,12 +29,16 @@ export default function FormWrapper({
         <Header label={label} header={header} />
       </CardHeader>
       <CardContent>{children}</CardContent>
-      <CardFooter>
-        <Social />
-      </CardFooter>
-      <CardFooter>
-        <BackButton href={backButtonHref} label={backButtonLabel} />
-      </CardFooter>
+      {showSocial && (
+        <CardFooter>
+          <Social />
+        </CardFooter>
+      )}
+      {showBackButton && (
+        <CardFooter>
+          <BackButton href={backButtonHref!} label={backButtonLabel!} />
+        </CardFooter>
+      )}
     </Card>
   )
 }

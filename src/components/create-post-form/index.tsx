@@ -1,5 +1,5 @@
+import FormWrapper from 'components/auth/form-wrapper'
 import * as z from 'zod'
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Form,
@@ -9,65 +9,53 @@ import {
   FormLabel,
   FormMessage,
 } from 'components/ui/form'
+import { useForm } from 'react-hook-form'
 import { Input } from 'components/ui/input'
+import { CreatePostSchema } from '@/schemas'
 import { Button } from 'components/ui/button'
-import FormWrapper from 'components/auth/form-wrapper'
+import { Textarea } from 'components/ui/textarea'
+import { useCreatePostMutation } from 'api/posts'
 import { toast } from 'sonner'
-import { LoginSchema } from '@/schemas'
-import { useLoginMutation } from '@/redux/api/profile'
-import { useAppDispatch } from '@/hooks/redux'
-import { setCurrentUser } from '@/redux/slices/profile'
 
-const LoginForm = () => {
-  const [loginAction, { isError, isLoading }] = useLoginMutation()
-  const dispatch = useAppDispatch()
-  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
-    await loginAction({
-      email: values.email,
-      password: values.password,
-    })
+export default function CreatePostForm() {
+  const [createPost, { isError, isLoading }] = useCreatePostMutation()
+  const onSubmit = async (values: z.infer<typeof CreatePostSchema>) => {
+    createPost(values)
       .unwrap()
-      .then((data) => {
+      .then(() => {
         if (isError) {
-          toast.error('Failed to login')
+          toast.error('Error')
           return
-        } else {
-          localStorage.setItem('accesToken', data.accesToken)
-          dispatch(setCurrentUser(data.user))
         }
+        form.reset()
+        toast.success('Succes')
       })
   }
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof CreatePostSchema>>({
+    resolver: zodResolver(CreatePostSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      title: '',
+      content: '',
     },
   })
+
   return (
-    <FormWrapper
-      showBackButton
-      showSocial
-      header='Login'
-      label='Welcome back!'
-      backButtonLabel='Dont have an account?'
-      backButtonHref='/auth/registration'
-    >
+    <FormWrapper header='Create new post' label='Add a new post to our blog'>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <div className='space-y-4'>
             <FormField
               control={form.control}
-              name='email'
+              name='title'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Title</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isLoading}
                       {...field}
-                      placeholder='example@email.com'
+                      placeholder='Dlya Tailera'
                     />
                   </FormControl>
 
@@ -77,16 +65,15 @@ const LoginForm = () => {
             />
             <FormField
               control={form.control}
-              name='password'
+              name='content'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Content</FormLabel>
                   <FormControl>
-                    <Input
+                    <Textarea
                       disabled={isLoading}
-                      type='password'
                       {...field}
-                      placeholder='******'
+                      placeholder='Post pro tailera'
                     />
                   </FormControl>
                   <FormMessage />
@@ -100,12 +87,10 @@ const LoginForm = () => {
             className='w-full'
             size='lg'
           >
-            Login
+            Submit
           </Button>
         </form>
       </Form>
     </FormWrapper>
   )
 }
-
-export default LoginForm

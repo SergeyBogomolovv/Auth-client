@@ -13,11 +13,23 @@ import { PropagateLoader } from 'react-spinners'
 import GoogleRoute from './assets/google-route'
 import BlogPage from './pages/blog'
 import CreatePostPage from './pages/create-post'
-function App() {
-  const { checkAuth, isLoading, user } = useAuth()
+import { useRefreshQuery } from './redux/api/profile'
+import { useAppDispatch } from './hooks/redux'
+import { setCurrentUser } from './redux/slices/profile'
 
+function App() {
+  const { user } = useAuth()
+  const { refetch, isLoading } = useRefreshQuery(null)
+  const dispatch = useAppDispatch()
   useEffect(() => {
-    if (!user && localStorage.getItem('accesToken')) checkAuth()
+    if (!user && localStorage.getItem('accesToken')) {
+      refetch().then((data) => {
+        if (data.data?.accesToken && data.data.user) {
+          localStorage.setItem('accesToken', data.data.accesToken)
+          dispatch(setCurrentUser(data.data.user))
+        }
+      })
+    }
   }, [])
 
   if (isLoading)
@@ -26,6 +38,7 @@ function App() {
         <PropagateLoader color='white' />
       </div>
     )
+
   return (
     <Routes>
       <Route path='/' element={<MainLayout />}>
