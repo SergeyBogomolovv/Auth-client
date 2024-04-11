@@ -1,4 +1,6 @@
-import { useAuth } from 'hooks/use-auth'
+import { useAppDispatch } from '@/hooks/redux'
+import { useGoogleLoginMutation } from '@/redux/api/profile'
+import { setCurrentUser } from '@/redux/slices/profile'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
@@ -6,13 +8,19 @@ import { PropagateLoader } from 'react-spinners'
 
 export default function GoogleRoute() {
   const [searchParams] = useSearchParams()
-  const { google } = useAuth()
   const token = searchParams.get('token')
   const navigate = useNavigate()
-
+  const [googleAuth] = useGoogleLoginMutation()
+  const dispatch = useAppDispatch()
   useEffect(() => {
     if (token) {
-      google(token).then(() => navigate('/settings'))
+      googleAuth({ token })
+        .unwrap()
+        .then((data) => {
+          localStorage.setItem('accesToken', data.accesToken)
+          dispatch(setCurrentUser(data.user))
+          return navigate('/settings')
+        })
     }
   }, [])
 

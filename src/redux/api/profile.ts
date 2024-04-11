@@ -1,10 +1,8 @@
 import { LoginResponse } from '@/interfaces/login-response'
 import { RefreshResponse } from '@/interfaces/refresh-response'
-import { User } from '@/interfaces/user'
 import { axiosBaseQuery } from '@/lib/axios'
 import { LoginSchema, RegisterSchema } from '@/schemas'
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { toast } from 'sonner'
 import * as z from 'zod'
 
 interface RegisterResponse {
@@ -19,22 +17,17 @@ export const profileApi = createApi({
     refresh: build.query<RefreshResponse, null>({
       query: () => ({
         url: 'refresh',
-        transformResponse: (response: { user: User; accesToken: string }) => {
-          return response.user
-        },
       }),
-      providesTags: ['Profile'],
     }),
     login: build.mutation<LoginResponse, z.infer<typeof LoginSchema>>({
       query: ({ email, password }) => ({
         url: 'login',
         method: 'POST',
         data: { email, password },
-        transformResponse: (response: { user: User; accesToken: string }) => {
-          return response.user
-        },
       }),
-      invalidatesTags: ['Profile'],
+    }),
+    googleLogin: build.mutation<LoginResponse, { token: string }>({
+      query: ({ token }) => ({ url: `google/get-user?token=${token}` }),
     }),
     registration: build.mutation<
       RegisterResponse,
@@ -44,11 +37,7 @@ export const profileApi = createApi({
         url: 'registration',
         method: 'POST',
         data: { email, password, passwordRepeat, name },
-        transformResponse: (response: { message: string }) => {
-          return toast.success(response.message)
-        },
       }),
-      invalidatesTags: ['Profile'],
     }),
     logout: build.mutation<null, undefined>({
       query: () => ({
@@ -56,11 +45,15 @@ export const profileApi = createApi({
         transformResponse: () => {
           return null
         },
-        invalidatesTags: ['Profile'],
       }),
     }),
   }),
 })
 
-export const { useRefreshQuery, useLoginMutation, useLogoutMutation } =
-  profileApi
+export const {
+  useRefreshQuery,
+  useLoginMutation,
+  useLogoutMutation,
+  useRegistrationMutation,
+  useGoogleLoginMutation,
+} = profileApi

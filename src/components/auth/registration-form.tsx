@@ -1,7 +1,7 @@
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState, useTransition } from 'react'
+import { useState } from 'react'
 import {
   Form,
   FormControl,
@@ -16,13 +16,12 @@ import FormError from 'components/auth/form-error'
 import FormSucces from 'components/auth/form-succes'
 import FormWrapper from 'components/auth/form-wrapper'
 import { RegisterSchema } from '@/schemas'
-import { useAuth } from '@/hooks/use-auth'
+import { useRegistrationMutation } from '@/redux/api/profile'
 
 const RegisterForm = () => {
-  const { registration, isLoading } = useAuth()
   const [error, setError] = useState<string | undefined>()
   const [succes, setSucces] = useState<string | undefined>()
-  const [isPending, startTransition] = useTransition()
+  const [registration, { isLoading }] = useRegistrationMutation()
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -32,19 +31,18 @@ const RegisterForm = () => {
       passwordRepeat: '',
     },
   })
-  const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+
+  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     setError('')
     setSucces('')
-    startTransition(() => {
-      registration(values).then((data) => {
-        if (data?.message) {
-          setSucces(data.message)
-        }
-        if (data?.error) {
-          setError(data.error)
-        }
+    await registration(values)
+      .unwrap()
+      .then((data) => {
+        setSucces(data.message)
       })
-    })
+      .catch((err) => {
+        setError(err.data.message)
+      })
   }
 
   return (
@@ -65,7 +63,7 @@ const RegisterForm = () => {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input disabled={isPending} {...field} placeholder='Gerax' />
+                  <Input disabled={isLoading} {...field} placeholder='Gerax' />
                 </FormControl>
 
                 <FormMessage />
@@ -81,7 +79,7 @@ const RegisterForm = () => {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={isPending}
+                      disabled={isLoading}
                       {...field}
                       placeholder='example@email.com'
                     />
@@ -99,7 +97,7 @@ const RegisterForm = () => {
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={isPending}
+                      disabled={isLoading}
                       type='password'
                       {...field}
                       placeholder='******'
@@ -117,7 +115,7 @@ const RegisterForm = () => {
                   <FormLabel>Repeat password</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={isPending}
+                      disabled={isLoading}
                       type='password'
                       {...field}
                       placeholder='******'

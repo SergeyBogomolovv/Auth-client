@@ -1,4 +1,3 @@
-import { useAuth } from 'hooks/use-auth'
 import { Avatar, AvatarImage } from 'components/ui/avatar'
 import { FaUserCircle } from 'react-icons/fa'
 import {
@@ -15,9 +14,10 @@ import { RiUserAddFill } from 'react-icons/ri'
 import { RiUserSharedFill } from 'react-icons/ri'
 import { MdManageAccounts } from 'react-icons/md'
 import { CiLogout } from 'react-icons/ci'
+import { useAppSelector } from '@/hooks/redux'
 
 export default function ProfileButton() {
-  const { user } = useAuth()
+  const { currentUser: user } = useAppSelector((state) => state.profile)
   const logo = user?.image.startsWith('avatars')
     ? `https://nest-auth.storage.yandexcloud.net/${user.image}`
     : user?.image
