@@ -1,6 +1,4 @@
-import { useAppDispatch } from '@/hooks/redux'
 import { useGoogleLoginMutation } from '@/redux/api/profile'
-import { setCurrentUser } from '@/redux/slices/profile'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
@@ -11,14 +9,11 @@ export default function GoogleRoute() {
   const token = searchParams.get('token')
   const navigate = useNavigate()
   const [googleAuth] = useGoogleLoginMutation()
-  const dispatch = useAppDispatch()
   useEffect(() => {
     if (token) {
       googleAuth({ token })
         .unwrap()
-        .then((data) => {
-          localStorage.setItem('accesToken', data.accesToken)
-          dispatch(setCurrentUser(data.user))
+        .then(() => {
           return navigate('/settings')
         })
     }

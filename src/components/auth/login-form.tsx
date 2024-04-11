@@ -15,26 +15,17 @@ import FormWrapper from 'components/auth/form-wrapper'
 import { toast } from 'sonner'
 import { LoginSchema } from '@/schemas'
 import { useLoginMutation } from '@/redux/api/profile'
-import { useAppDispatch } from '@/hooks/redux'
-import { setCurrentUser } from '@/redux/slices/profile'
 
 const LoginForm = () => {
-  const [loginAction, { isError, isLoading }] = useLoginMutation()
-  const dispatch = useAppDispatch()
+  const [loginAction, { isLoading }] = useLoginMutation()
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     await loginAction({
       email: values.email,
       password: values.password,
     })
       .unwrap()
-      .then((data) => {
-        if (isError) {
-          toast.error('Failed to login')
-          return
-        } else {
-          localStorage.setItem('accesToken', data.accesToken)
-          dispatch(setCurrentUser(data.user))
-        }
+      .catch(() => {
+        toast.error('Failed to login')
       })
   }
 

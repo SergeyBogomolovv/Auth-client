@@ -26,6 +26,7 @@ export const useProfile = () => {
       }
     }
   }
+
   const updateAvatar = async (image: File) => {
     if (!currentUser) return { error: 'Please login' }
     try {

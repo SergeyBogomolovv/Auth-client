@@ -13,22 +13,14 @@ import GoogleRoute from './assets/google-route'
 import BlogPage from './pages/blog'
 import CreatePostPage from './pages/create-post'
 import { useRefreshQuery } from './redux/api/profile'
-import { useAppDispatch, useAppSelector } from './hooks/redux'
-import { setCurrentUser } from './redux/slices/profile'
+import { useAppSelector } from './hooks/redux'
 
 function App() {
   const { currentUser } = useAppSelector((state) => state.profile)
   const { refetch, isLoading } = useRefreshQuery(null)
-  const dispatch = useAppDispatch()
-
   useEffect(() => {
     if (!currentUser && localStorage.getItem('accesToken')) {
-      refetch().then((data) => {
-        if (data.data?.accesToken && data.data.user) {
-          localStorage.setItem('accesToken', data.data.accesToken)
-          dispatch(setCurrentUser(data.data.user))
-        }
-      })
+      refetch()
     }
   }, [])
 
