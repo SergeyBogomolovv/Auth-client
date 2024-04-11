@@ -1,4 +1,4 @@
-import { useAuth } from 'hooks/use-auth'
+import { useAppSelector } from '@/hooks/redux'
 import { Navigate, useLocation } from 'react-router'
 
 interface Props {
@@ -7,8 +7,8 @@ interface Props {
 
 export default function Private({ children }: Props) {
   const location = useLocation()
-  const { user } = useAuth()
-  if (!user) {
+  const { currentUser } = useAppSelector((state) => state.profile)
+  if (!currentUser) {
     return <Navigate to='/auth/login' state={{ from: location }} />
   }
   return children

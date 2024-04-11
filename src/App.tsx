@@ -8,21 +8,21 @@ import AuthLayout from './assets/auth-layout'
 import SettingLayout from './assets/settings-layout'
 import Private from './hoc/Private'
 import { useEffect } from 'react'
-import { useAuth } from './hooks/use-auth'
 import { PropagateLoader } from 'react-spinners'
 import GoogleRoute from './assets/google-route'
 import BlogPage from './pages/blog'
 import CreatePostPage from './pages/create-post'
 import { useRefreshQuery } from './redux/api/profile'
-import { useAppDispatch } from './hooks/redux'
+import { useAppDispatch, useAppSelector } from './hooks/redux'
 import { setCurrentUser } from './redux/slices/profile'
 
 function App() {
-  const { user } = useAuth()
+  const { currentUser } = useAppSelector((state) => state.profile)
   const { refetch, isLoading } = useRefreshQuery(null)
   const dispatch = useAppDispatch()
+
   useEffect(() => {
-    if (!user && localStorage.getItem('accesToken')) {
+    if (!currentUser && localStorage.getItem('accesToken')) {
       refetch().then((data) => {
         if (data.data?.accesToken && data.data.user) {
           localStorage.setItem('accesToken', data.data.accesToken)

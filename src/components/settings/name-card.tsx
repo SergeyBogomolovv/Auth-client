@@ -27,8 +27,8 @@ export default function NameCard({ user }: { user: User }) {
               return
             }
             updateName(name).then((res) => {
-              if (res.error) toast.error(res.error)
-              if (res.succes) toast.success(res.succes)
+              if (res?.error) toast.error(res.error)
+              if (res?.succes) toast.success(res.succes)
             })
             setEditMode(false)
           }}
@@ -41,8 +41,8 @@ export default function NameCard({ user }: { user: User }) {
                 return
               }
               updateName(name).then((res) => {
-                if (res.error) toast.error(res.error)
-                if (res.succes) toast.success(res.succes)
+                if (res?.error) toast.error(res.error)
+                if (res?.succes) toast.success(res.succes)
               })
               setEditMode(false)
             }

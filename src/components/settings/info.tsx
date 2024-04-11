@@ -1,15 +1,15 @@
 import { Button } from 'components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
-import { useAuth } from '@/hooks/use-auth'
 import InfoCard from './info-card'
 import { format, parseISO } from 'date-fns'
 import LogoutWrapper from 'components/auth/logout-wrapper'
 import NameCard from './name-card'
 import ImageCard from './image-card'
+import { useAppSelector } from '@/hooks/redux'
 
 export default function UserInfo() {
-  const { user } = useAuth()
-  const date = format(parseISO(user.createdAt), 'eeee do MMM, yyyy')
+  const { currentUser: user } = useAppSelector((state) => state.profile)
+  const date = format(parseISO(user!.createdAt), 'eeee do MMM, yyyy')
 
   return (
     <Card className='shadow-md w-full'>
@@ -20,8 +20,8 @@ export default function UserInfo() {
       </CardHeader>
       <CardContent className='grid grid-cols-2 gap-x-8'>
         <div className='space-y-4'>
-          <ImageCard user={user} />
-          <NameCard user={user} />
+          <ImageCard user={user!} />
+          <NameCard user={user!} />
         </div>
         <div className='flex flex-col justify-between'>
           <InfoCard label='ID' value={user?.id} />
