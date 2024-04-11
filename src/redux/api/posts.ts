@@ -3,7 +3,9 @@ import { Post } from '@/interfaces/post'
 import { CreatePostSchema } from '@/schemas'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import * as z from 'zod'
+
 //TODO: Сделать чтобы происходил рефреш, как в конфиге аксиоса
+
 export const postsApi = createApi({
   reducerPath: 'postsApi',
   baseQuery: fetchBaseQuery({
