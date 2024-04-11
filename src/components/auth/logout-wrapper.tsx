@@ -1,4 +1,6 @@
-import { useAuth } from 'hooks/use-auth'
+import { useAppDispatch } from '@/hooks/redux'
+import { useLogoutMutation } from '@/redux/api/profile'
+import { setCurrentUser } from '@/redux/slices/profile'
 import { cn } from 'lib/utils'
 
 export default function LogoutWrapper({
@@ -8,9 +10,20 @@ export default function LogoutWrapper({
   children: React.ReactNode
   className?: string
 }) {
-  const { logout } = useAuth()
+  const [logout] = useLogoutMutation()
+  const dispatch = useAppDispatch()
   return (
-    <span className={cn(className)} onClick={() => logout()}>
+    <span
+      className={cn(className)}
+      onClick={async () => {
+        await logout(undefined)
+          .unwrap()
+          .then(() => {
+            localStorage.removeItem('accesToken')
+            dispatch(setCurrentUser(null))
+          })
+      }}
+    >
       {children}
     </span>
   )

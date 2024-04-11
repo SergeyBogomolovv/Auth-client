@@ -1,7 +1,6 @@
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useTransition } from 'react'
 import {
   Form,
   FormControl,
@@ -13,24 +12,30 @@ import {
 import { Input } from 'components/ui/input'
 import { Button } from 'components/ui/button'
 import FormWrapper from 'components/auth/form-wrapper'
-import { useAuth } from 'hooks/use-auth'
 import { toast } from 'sonner'
 import { LoginSchema } from '@/schemas'
+import { useLoginMutation } from '@/redux/api/profile'
+import { useAppDispatch } from '@/hooks/redux'
+import { setCurrentUser } from '@/redux/slices/profile'
 
 const LoginForm = () => {
-  const { login } = useAuth()
-  const [isPending, startTransition] = useTransition()
+  const [loginAction, { isError, isLoading }] = useLoginMutation()
+  const dispatch = useAppDispatch()
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
-    startTransition(() => {
-      login({ email: values.email, password: values.password }).then((data) => {
-        if (data.error) {
-          toast.error(data.error)
-        }
-        if (data.succes) {
-          toast.success(data.succes)
+    await loginAction({
+      email: values.email,
+      password: values.password,
+    })
+      .unwrap()
+      .then((data) => {
+        if (isError) {
+          toast.error('Failed to login')
+          return
+        } else {
+          localStorage.setItem('accesToken', data.accesToken)
+          dispatch(setCurrentUser(data.user))
         }
       })
-    })
   }
 
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -60,7 +65,7 @@ const LoginForm = () => {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={isPending}
+                      disabled={isLoading}
                       {...field}
                       placeholder='example@email.com'
                     />
@@ -78,7 +83,7 @@ const LoginForm = () => {
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={isPending}
+                      disabled={isLoading}
                       type='password'
                       {...field}
                       placeholder='******'
@@ -90,7 +95,7 @@ const LoginForm = () => {
             />
           </div>
           <Button
-            disabled={isPending}
+            disabled={isLoading}
             type='submit'
             className='w-full'
             size='lg'

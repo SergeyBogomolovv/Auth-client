@@ -1,25 +1,18 @@
-import { Pagination } from '@/interfaces/pagination'
-import { Post } from '@/interfaces/post'
+import { Pagination } from 'interfaces/pagination'
+import { Post } from 'interfaces/post'
+import { axiosBaseQuery } from 'lib/axios'
 import { CreatePostSchema } from '@/schemas'
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
 import * as z from 'zod'
-
-//TODO: Сделать чтобы происходил рефреш, как в конфиге аксиоса
 
 export const postsApi = createApi({
   reducerPath: 'postsApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.APP_SERVER_URL}/posts/`,
-    prepareHeaders: (headers) => {
-      headers.set('authorization', `${localStorage.getItem('accesToken')}`)
-      return headers
-    },
-  }),
+  baseQuery: axiosBaseQuery({ urlPrefix: 'posts' }),
   tagTypes: ['Posts'],
   endpoints: (build) => ({
     getPosts: build.query<Post[], Pagination>({
       query: ({ limit, page }) => ({
-        url: '/',
+        url: '',
         params: { limit, page },
       }),
       providesTags: ['Posts'],
