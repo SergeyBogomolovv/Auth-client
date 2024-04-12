@@ -12,12 +12,13 @@ import { PropagateLoader } from 'react-spinners'
 import GoogleRoute from './assets/google-route'
 import BlogPage from './pages/blog'
 import CreatePostPage from './pages/create-post'
-import { useRefreshQuery } from './redux/api/profile'
-import { useAppSelector } from './hooks/redux'
+import { useRefreshQuery } from 'api/profile'
+import { useAppSelector } from 'hooks/redux'
 
 function App() {
   const { currentUser } = useAppSelector((state) => state.profile)
   const { refetch, isLoading } = useRefreshQuery(null)
+
   useEffect(() => {
     if (!currentUser && localStorage.getItem('accesToken')) {
       refetch()
