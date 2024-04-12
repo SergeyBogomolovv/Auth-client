@@ -1,10 +1,13 @@
 import { Pagination } from 'interfaces/pagination'
 import { Post } from 'interfaces/post'
 import { axiosBaseQuery } from 'lib/axios'
-import { CreatePostSchema } from '@/schemas'
+import { CreatePostSchema, UpdatePostSchema } from '@/schemas'
 import { createApi } from '@reduxjs/toolkit/query/react'
 import * as z from 'zod'
-
+interface UpdatePostAtts {
+  data: z.infer<typeof UpdatePostSchema>
+  id: string
+}
 export const postsApi = createApi({
   reducerPath: 'postsApi',
   baseQuery: axiosBaseQuery({ urlPrefix: 'posts' }),
@@ -25,6 +28,14 @@ export const postsApi = createApi({
       }),
       invalidatesTags: ['Posts'],
     }),
+    updatePost: build.mutation<Post, UpdatePostAtts>({
+      query: ({ data, id }) => ({
+        url: `${id}`,
+        method: 'PUT',
+        data: { ...data },
+      }),
+      invalidatesTags: ['Posts'],
+    }),
     deletePost: build.mutation<Post, string>({
       query: (id) => ({
         url: `${id}`,
@@ -36,6 +47,7 @@ export const postsApi = createApi({
 })
 
 export const {
+  useUpdatePostMutation,
   useGetPostsQuery,
   useCreatePostMutation,
   useDeletePostMutation,

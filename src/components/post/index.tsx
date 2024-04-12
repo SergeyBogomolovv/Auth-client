@@ -11,13 +11,14 @@ import UserCard from 'components/user-card'
 import { Button } from 'components/ui/button'
 import { useDeletePostMutation } from '@/redux/api/posts'
 import { toast } from 'sonner'
+import EditPostModal from './edit-post-modal'
 
 interface Props {
   post: Post
 }
 
 export default function PostCard({ post }: Props) {
-  const [deletePost] = useDeletePostMutation()
+  const [deletePost, { isLoading }] = useDeletePostMutation()
   const handledelete = async () => {
     await deletePost(post.id)
       .unwrap()
@@ -25,6 +26,7 @@ export default function PostCard({ post }: Props) {
       .catch(() => toast.error('Failed to delete post'))
   }
   const date = format(parseISO(post.createdAt), 'eeee do MMM, yyyy')
+
   return (
     <Card>
       <CardHeader>
@@ -36,9 +38,16 @@ export default function PostCard({ post }: Props) {
         <UserCard user={post.author!} label='Author' />
       </CardContent>
       <CardFooter>
-        <Button variant={'destructive'} onClick={handledelete}>
+        <Button
+          disabled={isLoading}
+          variant={'destructive'}
+          onClick={handledelete}
+        >
           Delete
         </Button>
+        <EditPostModal post={post}>
+          <Button disabled={isLoading}>Edit</Button>
+        </EditPostModal>
       </CardFooter>
     </Card>
   )
