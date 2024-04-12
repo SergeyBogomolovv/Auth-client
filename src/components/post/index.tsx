@@ -37,8 +37,9 @@ export default function PostCard({ post }: Props) {
         <div>Created: {date}</div>
         <UserCard user={post.author!} label='Author' />
       </CardContent>
-      <CardFooter>
+      <CardFooter className='flex items-center gap-2'>
         <Button
+          className='w-full'
           disabled={isLoading}
           variant={'destructive'}
           onClick={handledelete}
@@ -46,7 +47,9 @@ export default function PostCard({ post }: Props) {
           Delete
         </Button>
         <EditPostModal post={post}>
-          <Button disabled={isLoading}>Edit</Button>
+          <Button className='w-full' variant={'outline'} disabled={isLoading}>
+            Edit
+          </Button>
         </EditPostModal>
       </CardFooter>
     </Card>

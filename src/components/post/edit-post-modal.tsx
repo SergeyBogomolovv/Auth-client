@@ -103,7 +103,7 @@ export default function EditPostModal({ children, post }: Props) {
             <DialogFooter>
               <DialogClose>
                 <Button
-                  variant={'secondary'}
+                  variant={'outline'}
                   type='button'
                   className='w-full'
                   size='lg'
