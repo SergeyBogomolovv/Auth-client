@@ -11,7 +11,7 @@ export default function BlogPage() {
       ) : (
         <div className='grid grid-cols-4 gap-10'>
           {data?.map((post) => (
-            <PostCard post={post} />
+            <PostCard key={post.id} post={post} />
           ))}
         </div>
       )}

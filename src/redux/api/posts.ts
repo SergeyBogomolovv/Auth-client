@@ -21,11 +21,22 @@ export const postsApi = createApi({
       query: ({ content, title }) => ({
         url: 'create',
         method: 'POST',
-        body: { content, title },
+        data: { content, title },
+      }),
+      invalidatesTags: ['Posts'],
+    }),
+    deletePost: build.mutation<Post, string>({
+      query: (id) => ({
+        url: `${id}`,
+        method: 'DELETE',
       }),
       invalidatesTags: ['Posts'],
     }),
   }),
 })
 
-export const { useGetPostsQuery, useCreatePostMutation } = postsApi
+export const {
+  useGetPostsQuery,
+  useCreatePostMutation,
+  useDeletePostMutation,
+} = postsApi

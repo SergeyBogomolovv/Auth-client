@@ -18,18 +18,15 @@ import { useCreatePostMutation } from 'api/posts'
 import { toast } from 'sonner'
 
 export default function CreatePostForm() {
-  const [createPost, { isError, isLoading }] = useCreatePostMutation()
+  const [createPost, { isLoading }] = useCreatePostMutation()
   const onSubmit = async (values: z.infer<typeof CreatePostSchema>) => {
-    createPost(values)
+    await createPost(values)
       .unwrap()
       .then(() => {
-        if (isError) {
-          toast.error('Error')
-          return
-        }
         form.reset()
-        toast.success('Succes')
+        toast.success('Posted')
       })
+      .catch(() => toast.error(`Failed to create post`))
   }
 
   const form = useForm<z.infer<typeof CreatePostSchema>>({

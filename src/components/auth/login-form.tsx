@@ -14,7 +14,7 @@ import { Button } from 'components/ui/button'
 import FormWrapper from 'components/auth/form-wrapper'
 import { toast } from 'sonner'
 import { LoginSchema } from '@/schemas'
-import { useLoginMutation } from '@/redux/api/profile'
+import { useLoginMutation } from 'api/profile'
 
 const LoginForm = () => {
   const [loginAction, { isLoading }] = useLoginMutation()
