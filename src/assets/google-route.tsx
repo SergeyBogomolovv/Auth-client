@@ -20,7 +20,7 @@ export default function GoogleRoute() {
   }, [])
 
   return (
-    <div className='flex items-center justify-center w-full h-[100svh]'>
+    <div className='flex items-center justify-center w-full'>
       <PropagateLoader color='white' />
     </div>
   )

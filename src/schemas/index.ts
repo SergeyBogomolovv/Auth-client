@@ -20,3 +20,7 @@ export const CreatePostSchema = z.object({
   title: z.string(),
   content: z.string(),
 })
+export const UpdatePostSchema = z.object({
+  title: z.optional(z.string()),
+  content: z.optional(z.string()),
+})
