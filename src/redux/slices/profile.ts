@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { User } from 'interfaces/user'
 import { authApi } from '../api/auth'
+import { profileApi } from '../api/profile'
 
 interface ProfileState {
   currentUser: User | null
@@ -44,6 +45,18 @@ export const profileSlice = createSlice({
           state.currentUser = payload.user
         }
       )
+    builder.addMatcher(
+      profileApi.endpoints.updateLogo.matchFulfilled,
+      (state, { payload }) => {
+        state.currentUser = payload
+      }
+    )
+    builder.addMatcher(
+      profileApi.endpoints.updateUserName.matchFulfilled,
+      (state, { payload }) => {
+        state.currentUser = payload
+      }
+    )
   },
 })
 
