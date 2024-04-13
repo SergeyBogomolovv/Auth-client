@@ -1,4 +1,4 @@
-import { useLogoutMutation } from '@/redux/api/profile'
+import { useLogoutMutation } from '@/redux/api/auth'
 import { cn } from 'lib/utils'
 
 export default function LogoutWrapper({

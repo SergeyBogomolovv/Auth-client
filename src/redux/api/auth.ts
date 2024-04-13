@@ -9,8 +9,8 @@ interface RegisterResponse {
   message: string
 }
 
-export const profileApi = createApi({
-  reducerPath: 'profileApi',
+export const authApi = createApi({
+  reducerPath: 'authApi',
   baseQuery: axiosBaseQuery({ urlPrefix: 'auth' }),
   tagTypes: ['Profile'],
   endpoints: (build) => ({
@@ -56,4 +56,4 @@ export const {
   useLogoutMutation,
   useRegistrationMutation,
   useGoogleLoginMutation,
-} = profileApi
+} = authApi

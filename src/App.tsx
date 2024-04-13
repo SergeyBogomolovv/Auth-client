@@ -12,7 +12,7 @@ import { PropagateLoader } from 'react-spinners'
 import GoogleRoute from './assets/google-route'
 import BlogPage from './pages/blog'
 import CreatePostPage from './pages/create-post'
-import { useRefreshQuery } from 'api/profile'
+import { useRefreshQuery } from '@/redux/api/auth'
 import { useAppSelector } from 'hooks/redux'
 
 function App() {

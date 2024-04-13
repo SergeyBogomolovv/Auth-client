@@ -16,7 +16,7 @@ import FormError from 'components/auth/form-error'
 import FormSucces from 'components/auth/form-succes'
 import FormWrapper from 'components/auth/form-wrapper'
 import { RegisterSchema } from '@/schemas'
-import { useRegistrationMutation } from '@/redux/api/profile'
+import { useRegistrationMutation } from '@/redux/api/auth'
 
 const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>()
