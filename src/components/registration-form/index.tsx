@@ -12,9 +12,9 @@ import {
 } from 'components/ui/form'
 import { Input } from 'components/ui/input'
 import { Button } from 'components/ui/button'
-import FormError from 'components/auth/form-error'
-import FormSucces from 'components/auth/form-succes'
-import FormWrapper from 'components/auth/form-wrapper'
+import FormError from '@/components/form-assets/form-error'
+import FormSucces from '@/components/form-assets/form-succes'
+import FormWrapper from '@/components/form-assets/form-wrapper'
 import { RegisterSchema } from '@/schemas'
 import { useRegistrationMutation } from '@/redux/api/auth'
 

@@ -11,7 +11,7 @@ import {
 } from 'components/ui/form'
 import { Input } from 'components/ui/input'
 import { Button } from 'components/ui/button'
-import FormWrapper from 'components/auth/form-wrapper'
+import FormWrapper from '@/components/form-assets/form-wrapper'
 import { toast } from 'sonner'
 import { LoginSchema } from '@/schemas'
 import { useLoginMutation } from '@/redux/api/auth'

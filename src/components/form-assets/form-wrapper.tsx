@@ -1,8 +1,8 @@
 import React from 'react'
 import { Card, CardContent, CardFooter, CardHeader } from 'components/ui/card'
-import Header from 'components/auth/header'
-import Social from 'components/auth/social'
-import BackButton from 'components/auth/back-button'
+import Header from '@/components/form-assets/header'
+import Social from '@/components/form-assets/social'
+import BackButton from 'components/form-assets/back-button'
 
 interface Props {
   header: string
