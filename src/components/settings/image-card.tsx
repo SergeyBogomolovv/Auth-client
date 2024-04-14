@@ -3,6 +3,7 @@ import { RiImageEditLine } from 'react-icons/ri'
 import { useRef } from 'react'
 import { toast } from 'sonner'
 import { useUpdateLogoMutation } from '@/redux/api/profile'
+
 export default function ImageCard({ user }: { user: User }) {
   const inputRef: React.Ref<HTMLInputElement> = useRef(null)
   const imageUrl = user.image.startsWith('avatars')
