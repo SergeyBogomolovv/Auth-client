@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { User } from 'interfaces/user'
+import { authApi } from '../api/auth'
 import { profileApi } from '../api/profile'
 
 interface ProfileState {
@@ -20,33 +21,42 @@ export const profileSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addMatcher(
-      profileApi.endpoints.login.matchFulfilled,
+      authApi.endpoints.login.matchFulfilled,
       (state, { payload }) => {
         localStorage.setItem('accesToken', payload.accesToken)
         state.currentUser = payload.user
       }
     ),
+      builder.addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
+        localStorage.removeItem('accesToken')
+        state.currentUser = null
+      }),
       builder.addMatcher(
-        profileApi.endpoints.logout.matchFulfilled,
-        (state) => {
-          localStorage.removeItem('accesToken')
-          state.currentUser = null
-        }
-      ),
-      builder.addMatcher(
-        profileApi.endpoints.refresh.matchFulfilled,
+        authApi.endpoints.refresh.matchFulfilled,
         (state, { payload }) => {
           localStorage.setItem('accesToken', payload.accesToken)
           state.currentUser = payload.user
         }
       ),
       builder.addMatcher(
-        profileApi.endpoints.googleLogin.matchFulfilled,
+        authApi.endpoints.googleLogin.matchFulfilled,
         (state, { payload }) => {
           localStorage.setItem('accesToken', payload.accesToken)
           state.currentUser = payload.user
         }
       )
+    builder.addMatcher(
+      profileApi.endpoints.updateLogo.matchFulfilled,
+      (state, { payload }) => {
+        state.currentUser = payload
+      }
+    )
+    builder.addMatcher(
+      profileApi.endpoints.updateUserName.matchFulfilled,
+      (state, { payload }) => {
+        state.currentUser = payload
+      }
+    )
   },
 })
 

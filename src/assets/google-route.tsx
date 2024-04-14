@@ -1,4 +1,4 @@
-import { useGoogleLoginMutation } from '@/redux/api/profile'
+import { useGoogleLoginMutation } from '@/redux/api/auth'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { useSearchParams } from 'react-router-dom'

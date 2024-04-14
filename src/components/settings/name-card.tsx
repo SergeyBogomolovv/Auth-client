@@ -1,4 +1,4 @@
-import { useProfile } from '@/hooks/use-profile'
+import { useUpdateUserNameMutation } from 'api/profile'
 import { User } from 'interfaces/user'
 import { useState } from 'react'
 import { FaEdit } from 'react-icons/fa'
@@ -7,7 +7,8 @@ import { toast } from 'sonner'
 export default function NameCard({ user }: { user: User }) {
   const [editMode, setEditMode] = useState(false)
   const [name, setName] = useState(user.name)
-  const { updateName } = useProfile()
+  const [updateName] = useUpdateUserNameMutation()
+
   return (
     <div className='flex flex-row items-center justify-between rounded-lg border px-4 py-3 gap-2 shadow-md'>
       {editMode ? (
@@ -19,20 +20,24 @@ export default function NameCard({ user }: { user: User }) {
           }}
           className='p-0 m-0 focus:outline-none bg-transparent font-medium'
           autoFocus
-          onBlur={() => {
+          onBlur={async () => {
             if (name.length < 3) {
               setName(user.name)
               toast.error('Name must be more than 3 charachters')
               setEditMode(false)
               return
             }
-            updateName(name).then((res) => {
-              if (res?.error) toast.error(res.error)
-              if (res?.succes) toast.success(res.succes)
-            })
+            await updateName(name)
+              .unwrap()
+              .then(() => {
+                toast.success('Name succesful updated')
+              })
+              .catch(() => {
+                toast.error('Failed to update name')
+              })
             setEditMode(false)
           }}
-          onKeyDown={(e) => {
+          onKeyDown={async (e) => {
             if (e.key === 'Enter') {
               if (name.length < 3) {
                 setName(user.name)
@@ -40,10 +45,14 @@ export default function NameCard({ user }: { user: User }) {
                 setEditMode(false)
                 return
               }
-              updateName(name).then((res) => {
-                if (res?.error) toast.error(res.error)
-                if (res?.succes) toast.success(res.succes)
-              })
+              await updateName(name)
+                .unwrap()
+                .then(() => {
+                  toast.success('Name succesful updated')
+                })
+                .catch(() => {
+                  toast.error('Failed to update name')
+                })
               setEditMode(false)
             }
           }}

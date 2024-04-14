@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import profileSlice from 'slices/profile'
 import { postsApi } from 'api/posts'
+import { authApi } from './api/auth'
 import { profileApi } from './api/profile'
 
 export const makeStore = () => {
@@ -8,10 +9,15 @@ export const makeStore = () => {
     reducer: {
       profile: profileSlice,
       [postsApi.reducerPath]: postsApi.reducer,
+      [authApi.reducerPath]: authApi.reducer,
       [profileApi.reducerPath]: profileApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(postsApi.middleware, profileApi.middleware),
+      getDefaultMiddleware().concat(
+        postsApi.middleware,
+        authApi.middleware,
+        profileApi.middleware
+      ),
   })
 }
 

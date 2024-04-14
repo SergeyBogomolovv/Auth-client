@@ -1,4 +1,4 @@
-import FormWrapper from 'components/auth/form-wrapper'
+import FormWrapper from '@/components/form-assets/form-wrapper'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
